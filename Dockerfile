@@ -1,8 +1,11 @@
 FROM python:3.8-alpine
 #FROM arm32v7/python
 
-RUN pip install flask guinicorn
+COPY requirements.txt /tmp/
+
+RUN pip install --upgrade pip && \
+    pip install -r /tmp/requirements.txt
 
 COPY src .
 
-CMD [ "gunicorn", "app.py" ]
+CMD [ "gunicorn", "-w", "4", "-b", ":8080", "app:app" ]
