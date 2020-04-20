@@ -22,7 +22,9 @@ env:
     - TAG_NAME=$TRAVIS_COMMIT_SHORT
 
 script:
+  - echo $TAG_NAME
   - if [ $TRAVIS_CPU_ARCH = "arm64" ]; then export BUILD_ARGS="--build-arg BASE_IMAGE=arm32v7/python"; export TAG_NAME=$TAG_NAME_arm; fi
-  - docker build -t srowley/python-demo:$TAG_NAME .
+  - echo $TAG_NAME
+  - docker build -t srowley/python-demo:$TAG_NAME $BUILD_ARGS .
   - docker run -d -p 8080:8080 --name python-demo srowley/python-demo:$TAG_NAME
   - docker ps | grep -q python-demo
