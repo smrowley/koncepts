@@ -5,7 +5,7 @@ python:
 
 arch:
   - amd64
-  - arm64
+  - arm32
 
 git:
   depth: 3
@@ -23,7 +23,7 @@ env:
 
 script:
   - echo $TAG_NAME
-  - if [ $TRAVIS_CPU_ARCH = "arm64" ]; then export BUILD_ARGS="--build-arg BASE_IMAGE=arm32v7/python"; export TAG_NAME=${TAG_NAME}_arm; fi
+  - if [ $TRAVIS_CPU_ARCH = "arm32" ]; then export BUILD_ARGS="--build-arg BASE_IMAGE=arm32v7/python"; export TAG_NAME=${TAG_NAME}_arm32; fi
   - echo $TAG_NAME
   - docker build -t srowley/python-demo:$TAG_NAME $BUILD_ARGS .
   - docker run -d -p 8080:8080 --name python-demo srowley/python-demo:$TAG_NAME
