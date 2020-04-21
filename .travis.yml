@@ -25,7 +25,4 @@ env:
 
 script:
   - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-  - docker buildx build -t srowley/python-demo:$TRAVIS_COMMIT_SHORT --progress plain --platform linux/arm/v7,linux/amd64 --push .
-  - docker images
-  - docker run -d -p 8080:8080 --name python-demo srowley/python-demo:$TRAVIS_COMMIT_SHORT
-  - docker ps | grep -q python-demo
+  - docker buildx build -t srowley/python-demo:latest -t srowley/python-demo:$TRAVIS_COMMIT_SHORT --progress plain --platform linux/arm/v7,linux/amd64 --push .
