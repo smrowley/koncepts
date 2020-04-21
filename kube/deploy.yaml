@@ -19,10 +19,11 @@ spec:
     spec:
       containers:
         - name: python-demo
-          image: srowley/python-demo:cc4a6a0
+          image: srowley/python-demo:latest
           ports:
             - containerPort: 8080
               protocol: TCP
+          imagePullPolicy: Always
 ---
 apiVersion: v1
 kind: Service
@@ -32,8 +33,8 @@ metadata:
   name: python-demo
 spec:
   ports:
-  - port: 8080
-    protocol: TCP
+    - port: 8080
+      protocol: TCP
   selector:
     app: python-demo
 ---
@@ -43,11 +44,12 @@ metadata:
   name: python-demo
   annotations:
     kubernetes.io/ingress.class: traefik
+    traefik.frontend.rule.type: PathPrefixStrip #used to strip path prefix after routing is complete
 spec:
   rules:
-  - http:
-      paths:
-      - path: /
-        backend:
-          serviceName: python-demo
-          servicePort: 8080
+    - http:
+        paths:
+          - path: /
+            backend:
+              serviceName: python-demo
+              servicePort: 8080
