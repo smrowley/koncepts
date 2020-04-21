@@ -21,4 +21,4 @@ env:
 
 script:
   - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-  - DLCOKER_CLI_EXPERIMENTAL=enabled DOCKER_BUILDKIT=1 docker build -t srowley/python-demo:latest -t srowley/python-demo:$TRAVIS_COMMIT_SHORT --platform linux/arm/v7,linux/arm64,linux/amd64 .
+  - DOCKER_CLI_EXPERIMENTAL=enabled DOCKER_BUILDKIT=1 docker build -t srowley/python-demo:latest -t srowley/python-demo:$TRAVIS_COMMIT_SHORT --platform linux/arm/v7,linux/arm64,linux/amd64 .
