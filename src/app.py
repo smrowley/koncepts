@@ -13,7 +13,7 @@ def index():
 
 @app.route("/plain")
 def plain():
-    return hostname
+    return hostname + "\n"
 
 
 # used only for debugging when not using gunicorn
