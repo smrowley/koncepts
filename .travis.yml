@@ -18,7 +18,9 @@ install:
 env:
   global:
     - TRAVIS_COMMIT_SHORT=$(echo $TRAVIS_COMMIT | cut -c-7)
+    - IMAGE_NAME=python-reverse-debugger
+    - REPO_NAME=srowley/$IMAGE_NAME
 
 script:
   - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-  - buildctl build --progress=plain --frontend=dockerfile.v0 --local context=. --local dockerfile=. --opt filename=Dockerfile --opt platform=linux/arm/v7,linux/arm64,linux/amd64 --output type=image,name=srowley/python-demo:latest,push=true
+  - buildctl build --progress=plain --frontend=dockerfile.v0 --local context=. --local dockerfile=. --opt filename=Dockerfile --opt platform=linux/arm/v7,linux/arm64,linux/amd64 --output type=image,name=$REPO_NAME:latest,push=true
