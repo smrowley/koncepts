@@ -10,7 +10,10 @@ git:
   depth: 3
 
 install:
-  - docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+  - docker container run --rm --privileged multiarch/qemu-user-static --reset -p yes
+  #- docker container run -d --rm --name buildkitd --privileged moby/buildkit:latest
+  #- sudo docker container cp buildkitd:/usr/bin/buildctl /usr/local/bin/
+  #- export BUILDKIT_HOST="docker-container://buildkitd"
 
 env:
   global:
@@ -18,4 +21,4 @@ env:
 
 script:
   - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
-  - docker build -t srowley/python-demo:latest -t srowley/python-demo:$TRAVIS_COMMIT_SHORT --progress plain --platform linux/arm/v7,linux/arm64,linux/amd64 --push .
+  - DLCOKER_CLI_EXPERIMENTAL=enabled DOCKER_BUILDKIT=1 docker build -t srowley/python-demo:latest -t srowley/python-demo:$TRAVIS_COMMIT_SHORT --progress plain --platform linux/arm/v7,linux/arm64,linux/amd64 .
