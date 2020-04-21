@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-demo
+  labels:
+    app: python-demo
+spec:
+  strategy:
+    type: RollingUpdate
+  triggers:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-demo
+  template:
+    metadata:
+      labels:
+        app: python-demo
+    spec:
+      containers:
+        - name: python-demo
+          image: srowley/python-demo:cc4a6a0
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: python-demo
+  name: python-demo
+spec:
+  ports:
+  - port: 8080
+    protocol: TCP
+  selector:
+    app: python-demo
+---
+kind: Ingress
+apiVersion: networking.k8s.io/v1beta1
+metadata:
+  name: python-demo
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: python-demo
+          servicePort: 8080
