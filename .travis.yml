@@ -3,10 +3,6 @@ language: python
 python:
   - 3.8
 
-arch:
-  - amd64
-  - arm32
-
 git:
   depth: 3
 
@@ -18,13 +14,8 @@ install: skip
 env:
   global:
     - TRAVIS_COMMIT_SHORT=$(echo $TRAVIS_COMMIT | cut -c-7)
-    - BUILD_ARGS=""
-    - TAG_NAME=$TRAVIS_COMMIT_SHORT
 
 script:
-  - echo $TAG_NAME
-  - if [ $TRAVIS_CPU_ARCH = "arm32" ]; then export BUILD_ARGS="--build-arg BASE_IMAGE=arm32v7/python"; export TAG_NAME=${TAG_NAME}_arm32; fi
-  - echo $TAG_NAME
-  - docker build -t srowley/python-demo:$TAG_NAME $BUILD_ARGS .
-  - docker run -d -p 8080:8080 --name python-demo srowley/python-demo:$TAG_NAME
+  - docker buildx build -t srowley/python-demo:$TRAVIS_COMMIT_SHORT --platform linux/arm32,linux/amd64 .
+  - docker run -d -p 8080:8080 --name python-demo srowley/python-demo:$TRAVIS_COMMIT_SHORT
   - docker ps | grep -q python-demo

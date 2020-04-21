@@ -1,7 +1,4 @@
-ARG BASE_IMAGE=python:3.8-alpine
-
-FROM ${BASE_IMAGE}
-#FROM arm32v7/python
+FROM python:3.8-alpine
 
 COPY requirements.txt /tmp/
 
