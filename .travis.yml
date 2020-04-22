@@ -33,7 +33,7 @@ script:
     --opt filename=Dockerfile
     --opt platform=$TARGET_PLATFORMS
     --opt build-arg:VCS_REF=$TRAVIS_COMMIT_SHORT
-    --opt build-arg:BUILD_DATE=$(date)
+    --opt build-arg:BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ")
     --output type=image,name=$REPO_NAME,push=true
 
 after_success:
