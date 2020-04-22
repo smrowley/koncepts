@@ -1,5 +1,7 @@
 # Python Reverse Debugger
 
+[![Build Status](https://travis-ci.org/game-of-things/game-room-service.svg?branch=master)](https://travis-ci.org/game-of-things/game-room-service)
+
 A Python Flask application that displays `/etc/hostname` as an html page. When the application is deployed in k8s, this will be the pod name.
 
 The app may be helpful for demos of pod deployments, scaling, deletions, etc.
