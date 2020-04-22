@@ -18,7 +18,7 @@ The service is a Flask Python app running on gunicorn. It is using a Jinja templ
 You can quickly deploy the app in k8s with the following:
 
 ```
-kubectl apply -f kube/deploy.yaml
+kubectl apply -f https://raw.githubusercontent.com/smrowley/python-reverse-debugger/master/kube/deploy.yaml
 ```
 
 ## Command line inspection
