@@ -6,13 +6,13 @@ app = Flask(__name__)
 
 hostname = popen("cat /etc/hostname").read().strip()
 
-contentBase = "/usr/local/etc/content"
 contentFileNames = [f for f in listdir(
-    contentBase) if isfile(join(contentBase, f))]
+    environ["CONTENT_PATH"]) if isfile(join(environ["CONTENT_PATH"], f))]
 contentFiles = {}
 
 for fileName in contentFileNames:
-    contentFiles[fileName] = open(f"{contentBase}/{fileName}", "r").read()
+    contentFiles[fileName] = open(
+        f"{environ['CONTENT_PATH']}/{fileName}", "r").read()
 
 
 @app.route("/")

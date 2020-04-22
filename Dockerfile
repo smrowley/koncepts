@@ -12,6 +12,9 @@ LABEL \
     org.label-schema.version="latest" \
     org.label-schema.schema-version="1.0"
 
+ENV PORT=8080
+ENV CONTENT_PATH=/usr/local/etc/content
+
 COPY requirements.txt /tmp/
 
 RUN pip install --upgrade pip && \
@@ -19,8 +22,8 @@ RUN pip install --upgrade pip && \
 
 COPY src .
 
-COPY content /usr/local/etc/content
+COPY content $CONTENT_PATH
 
-EXPOSE 8080
+EXPOSE $PORT
 
-CMD [ "gunicorn", "-w", "4", "-b", ":8080", "app:app" ]
+CMD [ "gunicorn", "-w", "4", "-b", ":$PORT", "app:app" ]
