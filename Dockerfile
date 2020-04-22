@@ -7,4 +7,6 @@ RUN pip install --upgrade pip && \
 
 COPY src .
 
+COPY content /usr/local/etc/content
+
 CMD [ "gunicorn", "-w", "4", "-b", ":8080", "app:app" ]
