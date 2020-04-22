@@ -32,5 +32,6 @@ script:
     --local dockerfile=.
     --opt filename=Dockerfile
     --opt platform=$TARGET_PLATFORMS
-    --opt build-arg:VSC_REF=$TRAVIS_COMMIT_SHORT
+    --opt build-arg:VCS_REF=$TRAVIS_COMMIT_SHORT
+    --opt build-arg:BUILD_DATE=$(date)
     --output type=image,name=$REPO_NAME,push=true
