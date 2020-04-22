@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: python-demo
-          image: srowley/python-demo:latest
+          image: srowley/python-reverse-debugger:latest
           ports:
             - containerPort: 8080
               protocol: TCP
