@@ -26,4 +26,4 @@ COPY content $CONTENT_PATH
 
 EXPOSE $PORT
 
-CMD [ "gunicorn", "-w", "4", "-b", ":$PORT", "app:app" ]
+CMD [ "/bin/sh", "-c", "gunicorn -w 4 -b :${PORT} app:app" ]
