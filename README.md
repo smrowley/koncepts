@@ -13,6 +13,14 @@ The app may be helpful for demos of pod deployments, scaling, deletions, etc.
 
 The service is a Flask Python app running on gunicorn. It is using a Jinja template for the index.html. Please forgive the messy html with inline styles and such.
 
+## Deploying the app
+
+You can quickly deploy the app in k8s with the following:
+
+```
+kubectl apply -f kube/deploy.yaml
+```
+
 ## Command line inspection
 
 The service also provides the `/plain` endpoint, which can be useful for curl commands.
