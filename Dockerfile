@@ -9,4 +9,6 @@ COPY src .
 
 COPY content /usr/local/etc/content
 
+EXPOSE 8080
+
 CMD [ "gunicorn", "-w", "4", "-b", ":8080", "app:app" ]
