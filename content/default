@@ -1,1 +1,1 @@
-Try mounting a config map to /content and see what happens
+Try mounting a config map to /usr/local/etc/content and see what happens
