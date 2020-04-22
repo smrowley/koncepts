@@ -1,12 +1,14 @@
-import os
+from os import popen, environ, listdir
+from os.path import isfile, join
 from flask import Flask, render_template
 
 app = Flask(__name__)
 
-hostname = os.popen("cat /etc/hostname").read().strip()
+hostname = popen("cat /etc/hostname").read().strip()
 
 contentBase = "/usr/local/etc/content"
-contentFileNames = os.listdir(contentBase)
+contentFileNames = [f for f in listdir(
+    contentBase) if isfile(join(contentBase, f))]
 contentFiles = {}
 
 for fileName in contentFileNames:
@@ -15,7 +17,7 @@ for fileName in contentFileNames:
 
 @app.route("/")
 def index():
-    return render_template("index.html", hostname=hostname, contentFiles=contentFiles, envvars=os.environ)
+    return render_template("index.html", hostname=hostname, contentFiles=contentFiles, envvars=environ)
 
 
 @app.route("/plain")
