@@ -12,7 +12,7 @@ LABEL \
     org.label-schema.version="latest" \
     org.label-schema.schema-version="1.0"
 
-ENV PORT=8080
+ENV LISTEN_PORT=8080
 ENV CONTENT_PATH=/usr/local/etc/content
 
 COPY requirements.txt /tmp/
@@ -24,6 +24,6 @@ COPY src .
 
 COPY content $CONTENT_PATH
 
-EXPOSE $PORT
+EXPOSE $LISTEN_PORT
 
-CMD [ "/bin/sh", "-c", "gunicorn -w 4 -b :${PORT} app:app" ]
+CMD [ "/bin/sh", "-c", "gunicorn -w 4 -b :${LISTEN_PORT} app:app" ]
