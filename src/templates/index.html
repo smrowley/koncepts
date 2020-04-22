@@ -61,7 +61,7 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                     <div class="card-body text-left">
                         <pre style="background: #2a2c21; color: white; padding: 0px 20px 5px 20px"><code>
-{% for name in envvars %}
+{% for name in envvars -%}
 {{ name }}={{ envvars[name] }}
 {% endfor %}
                         </code></pre>
