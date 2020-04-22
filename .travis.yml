@@ -35,3 +35,6 @@ script:
     --opt build-arg:VCS_REF=$TRAVIS_COMMIT
     --opt build-arg:BUILD_DATE=$(date)
     --output type=image,name=$REPO_NAME,push=true
+
+after_success:
+  - curl -X POST https://hooks.microbadger.com/images/srowley/python-reverse-debugger/q0FL6alOTg7pEjVy3Cg-PauDTWY=
