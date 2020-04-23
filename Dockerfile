@@ -14,6 +14,7 @@ LABEL \
 
 ENV LISTEN_PORT=8080
 ENV CONTENT_PATH=/usr/local/etc/content
+ENV COMMIT_HASH=$VCS_REF
 
 COPY requirements.txt /tmp/
 
