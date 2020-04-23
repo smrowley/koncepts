@@ -13,30 +13,60 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
+
+    <style>
+        #outerBox {
+            margin: 100px 18% 0 18%;
+            padding: 5px;
+            border: solid 1px lightgray;
+            border-radius: 10px;
+        }
+
+        #collapseFileContents h4 {
+            border-bottom: solid 1px lightgray;
+            padding-bottom: 5px
+        }
+
+        .bi-file-text {
+            position: relative;
+            top: -3px;
+        }
+
+        .file-content {
+            margin-bottom: 20px;
+            white-space: pre-line
+        }
+
+        .code {
+            background: #2a2c21;
+            color: white;
+            padding: 0px 20px 5px 20px
+        }
+    </style>
 </head>
 
 <body>
-    <div class="text-center"
-        style="margin: 100px 18% 0 18%; padding: 5px; border: solid 1px lightgray; border-radius: 10px;">
+    <div id="outerBox" class="text-center">
         <h1 class="text-center">{{ hostname }}</h1>
         <div class="accordion" id="accordionExample">
             <div class="card">
                 <div class="card-header" id="headingOne">
                     <h2 class="mb-0">
-                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne"
-                            aria-expanded="false" aria-controls="collapseOne">
+                        <button class="btn btn-link" type="button" data-toggle="collapse"
+                            data-target="#collapseFileContents" aria-expanded="false"
+                            aria-controls="collapseFileContents">
                             Files in {{ envvars['CONTENT_PATH'] }}
                         </button>
                     </h2>
                 </div>
 
-                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                <div id="collapseFileContents" class="collapse show" aria-labelledby="headingOne"
                     data-parent="#accordionExample">
                     <div class="card-body text-left">
                         {% for key in contentFiles %}
-                        <h4 style="border-bottom: solid 1px lightgray; padding-bottom: 5px"><svg class="bi bi-file-text"
-                                width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor"
-                                xmlns="http://www.w3.org/2000/svg">
+                        <h4>
+                            <svg class="bi bi-file-text" width="1em" height="1em" viewBox="0 0 16 16"
+                                fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
                                     d="M4 1h8a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V3a2 2 0 012-2zm0 1a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1V3a1 1 0 00-1-1H4z"
                                     clip-rule="evenodd" />
@@ -44,7 +74,7 @@
                                     d="M4.5 10.5A.5.5 0 015 10h3a.5.5 0 010 1H5a.5.5 0 01-.5-.5zm0-2A.5.5 0 015 8h6a.5.5 0 010 1H5a.5.5 0 01-.5-.5zm0-2A.5.5 0 015 6h6a.5.5 0 010 1H5a.5.5 0 01-.5-.5zm0-2A.5.5 0 015 4h6a.5.5 0 010 1H5a.5.5 0 01-.5-.5z"
                                     clip-rule="evenodd" />
                             </svg>&nbsp;{{ key }}</h4>
-                        <p style="margin-bottom: 20px; white-space: pre-line">
+                        <p class="file-content">
                             {{ contentFiles[key] }}
                         </p>
                         {% endfor %}
@@ -55,14 +85,14 @@
                 <div class="card-header" id="headingTwo">
                     <h2 class="mb-0">
                         <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
-                            data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            data-target="#collapseEnvVars" aria-expanded="false" aria-controls="collapseEnvVars">
                             Environment Variables
                         </button>
                     </h2>
                 </div>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                <div id="collapseEnvVars" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
                     <div class="card-body text-left">
-                        <pre style="background: #2a2c21; color: white; padding: 0px 20px 5px 20px"><code>
+                        <pre class="code"><code>
 {% for name in envvars -%}
 {{ name }}={{ envvars[name] }}
 {% endfor %}</code></pre>
