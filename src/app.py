@@ -1,6 +1,9 @@
 from os import popen, environ, listdir
 from os.path import isfile, join
-from flask import Flask, render_template
+from flask import Flask, render_template, request, Response
+import time
+
+startTime = time.time()
 
 app = Flask(__name__)
 
@@ -27,6 +30,11 @@ def plain():
 
 @app.route("/<path:path>")
 def catchAll(path):
+    delay = request.args.get("d", default=-1, type=int)
+
+    if time.time() - startTime < delay:
+        return Response('{"message":"service is not ready"}', status=503, mimetype="application/json")
+
     print(path)
     return "ok"
 
