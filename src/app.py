@@ -25,6 +25,12 @@ def plain():
     return hostname + "\n"
 
 
+@app.route("/<path:path>")
+def catchAll(path):
+    print(path)
+    return "ok"
+
+
 # used only for debugging when not using gunicorn
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8080, debug=True)
