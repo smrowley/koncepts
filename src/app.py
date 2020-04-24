@@ -31,9 +31,15 @@ def plain():
 @app.route("/<path:path>")
 def catchAll(path):
     delay = request.args.get("d", default=-1, type=int)
+    fail = request.args.get("f", default=-1, type=int)
 
-    if time.time() - startTime < delay:
+    timeDelta = time.time() - startTime
+
+    if timeDelta < delay:
         return Response('{"message":"service is not ready"}', status=503, mimetype="application/json")
+
+    if fail > 0 and timeDelta > fail:
+        return Response('{"message":"catastrophic failure!"}', status=500, mimetype="application/json")
 
     print(path)
     return "ok"
