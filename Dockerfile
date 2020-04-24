@@ -27,4 +27,4 @@ COPY content $CONTENT_PATH
 
 EXPOSE $LISTEN_PORT
 
-CMD [ "/bin/sh", "-c", "gunicorn -w 4 -b :${LISTEN_PORT} app:app" ]
+CMD [ "/bin/sh", "-c", "gunicorn -w 4 -b :${LISTEN_PORT} --access-logfile - --access-logformat '%(h)s %(l)s %(u)s %(t)s \"%(r)s\" %(s)s %(b)s' app:app" ]
