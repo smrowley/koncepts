@@ -1,9 +1,9 @@
 from os import popen, environ, listdir
 from os.path import isfile, join
 from flask import Flask, render_template, request, Response
-import time
+from time import time
 
-startTime = time.time()
+startTime = time()
 
 app = Flask(__name__)
 
@@ -33,7 +33,7 @@ def catchAll(path):
     delay = request.args.get("d", default=-1, type=int)
     fail = request.args.get("f", default=-1, type=int)
 
-    timeDelta = time.time() - startTime
+    timeDelta = time() - startTime
 
     if timeDelta < delay:
         return Response('{"message":"service is not ready"}', status=503, mimetype="application/json")
@@ -41,7 +41,6 @@ def catchAll(path):
     if fail > 0 and timeDelta > fail:
         return Response('{"message":"catastrophic failure!"}', status=500, mimetype="application/json")
 
-    print(path)
     return "ok"
 
 
