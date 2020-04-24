@@ -36,7 +36,7 @@ def catchAll(path):
     timeDelta = time() - startTime
 
     if timeDelta < delay:
-        return Response('{"message":"service is not ready"}', status=503, mimetype="application/json")
+        return Response('{"message":"too soon!"}', status=503, mimetype="application/json")
 
     if fail > 0 and timeDelta > fail:
         return Response('{"message":"catastrophic failure!"}', status=500, mimetype="application/json")
