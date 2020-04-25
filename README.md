@@ -1,11 +1,13 @@
-# Python Reverse Debugger
+# Koncepts
 
 [![Build Status](https://travis-ci.org/game-of-things/game-room-service.svg?branch=master)](https://travis-ci.org/game-of-things/game-room-service)
-[![](https://images.microbadger.com/badges/commit/srowley/python-reverse-debugger.svg)](https://microbadger.com/images/srowley/python-reverse-debugger "Get your own commit badge on microbadger.com")
-[![](https://images.microbadger.com/badges/image/srowley/python-reverse-debugger.svg)](https://microbadger.com/images/srowley/python-reverse-debugger "Get your own image badge on microbadger.com")
-[![](https://images.microbadger.com/badges/version/srowley/python-reverse-debugger.svg)](https://microbadger.com/images/srowley/python-reverse-debugger "Get your own version badge on microbadger.com")
+[![](https://images.microbadger.com/badges/commit/srowley/koncepts.svg)](https://microbadger.com/images/srowley/koncepts "Get your own commit badge on microbadger.com")
+[![](https://images.microbadger.com/badges/image/srowley/koncepts.svg)](https://microbadger.com/images/srowley/koncepts "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/version/srowley/koncepts.svg)](https://microbadger.com/images/srowley/koncepts "Get your own version badge on microbadger.com")
 
-Image is hosted on [Docker Hub](https://hub.docker.com/r/srowley/python-reverse-debugger)
+Image is hosted on [Docker Hub](https://hub.docker.com/r/srowley/koncepts)
+
+Koncepts is an application for exercising Kubernetes concepts to newer Kubernetes users, as well as testing various configurations.
 
 A Python Flask application that displays `/etc/hostname` and other info about the host as an html page. When the application is deployed in k8s, this will be the pod name and other pod info.
 
@@ -18,7 +20,7 @@ The service is a Flask Python app running on gunicorn. It is using a Jinja templ
 You can quickly deploy the app in k8s with the following:
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/smrowley/python-reverse-debugger/master/kube/deploy.yaml
+kubectl apply -f https://raw.githubusercontent.com/smrowley/koncepts/master/kube/deploy.yaml
 ```
 
 ## Command line inspection
