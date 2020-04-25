@@ -23,11 +23,6 @@ def index():
     return render_template("index.html", hostname=hostname, contentFiles=contentFiles, envvars=environ)
 
 
-@app.route("/plain")
-def plain():
-    return hostname + "\n"
-
-
 @app.route("/<path:path>")
 def catchAll(path):
     delay = request.args.get("d", default=-1, type=int)
@@ -36,12 +31,19 @@ def catchAll(path):
     timeDelta = time() - startTime
 
     if timeDelta < delay:
-        return Response('{"message":"too soon!"}', status=503, mimetype="application/json")
+        return JsonResponse("too soon!", status=503)
 
     if fail > 0 and timeDelta > fail:
-        return Response('{"message":"catastrophic failure!"}', status=500, mimetype="application/json")
+        return JsonResponse("catastrophic failure!", status=500)
 
-    return "ok"
+    return JsonResponse("ok", status=200)
+
+
+class JsonResponse(Response):
+    def __init__(self, message, status):
+        message = '{"hostname":"' + hostname + '","message":"' + message + '"}'
+        Response.__init__(self, message, status=status,
+                          mimetype="application/json")
 
 
 # used only for debugging when not using gunicorn
