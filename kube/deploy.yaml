@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: python-demo
+  name: koncepts-demo
   labels:
-    app: python-demo
+    app: koncepts-demo
 spec:
   strategy:
     type: RollingUpdate
@@ -11,15 +11,15 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: python-demo
+      app: koncepts-demo
   template:
     metadata:
       labels:
-        app: python-demo
+        app: koncepts-demo
     spec:
       containers:
-        - name: python-demo
-          image: srowley/python-reverse-debugger:latest
+        - name: koncepts
+          image: srowley/koncepts:latest
           ports:
             - containerPort: 8080
               protocol: TCP
@@ -29,11 +29,11 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    app: python-demo
-  name: python-demo
+    app: koncepts-demo
+  name: koncepts-demo
 spec:
   ports:
     - port: 8080
       protocol: TCP
   selector:
-    app: python-demo
+    app: koncepts-demo

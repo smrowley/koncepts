@@ -1,7 +1,7 @@
 kind: Ingress
 apiVersion: networking.k8s.io/v1beta1
 metadata:
-  name: python-demo
+  name: koncepts-demo
   annotations:
     kubernetes.io/ingress.class: traefik
     traefik.frontend.rule.type: PathPrefixStrip #used to strip path prefix after routing is complete
@@ -9,7 +9,7 @@ spec:
   rules:
     - http:
         paths:
-          - path: /
+          - path: /koncepts
             backend:
-              serviceName: python-demo
+              serviceName: koncepts-demo
               servicePort: 8080
