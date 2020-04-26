@@ -23,16 +23,35 @@ You can quickly deploy the app in k8s with the following:
 kubectl apply -f https://raw.githubusercontent.com/smrowley/koncepts/master/kube/deploy.yaml
 ```
 
+## Index page
+
+The index URL returns an html page that provides information about the container.
+
 ## Command line inspection
 
-The service also provides the `/plain` endpoint, which can be useful for curl commands.
+The app will also handle requests to any path, log the request, and provide a response.
+
+### Query Parameters
+
+There are also two query parameters that you can specify:
+
+* `d` parameter looks for a positive integer value, and represents the number of seconds after the python app has started before it will return `200` responses. Until that time, it will return `503` response codes.
+  * eg. `http://<route url>/test?d=10` will return `503` responses for 10 seconds
+  * Default value is `0`
+* `f` parameter works similar to `d`, but will return `500` status codes after the integer value in seconds beyond the python app starting.
+  * eg. `http://<route url>/test?f=10` will return `500` responses after the first 10 seconds of the app being started.
+  * Default value is `0`
+  * Note: this parameter is absolute, and has no effect from the value set by `d`.
+    * Example: `http://<route url>/test?d=10&f=10` will never return a `200` response. Only `503` prior to 10 seconds, and `500` after 10 seconds has lapsed.
+
+### Curl loop for testing
 
 The following is an example script that will curl the app at one second intervals and return the pod name. This can be used to demonstrate the effects of pod scaling with `ReplicaSets` or `Deployment` rollouts.
 
 ```sh
 while [ true ]
 do
-  curl http://<route url>/plain
+  curl http://<route url>/test?d=10
   sleep 1
 done
 ```
