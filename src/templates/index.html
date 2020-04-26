@@ -14,18 +14,37 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
 
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
-
     <style>
-        h1 {
-            padding-left: 10px;
+        #titleBar {
             background-color: rgba(0, 0, 0, .03);
-            font-size: 3em;
+            width: 100%;
+            overflow: auto;
+            margin-bottom: 15px;
+            border-bottom: solid 1px lightgray;
         }
 
-        h1 span {
+        #titleText {
+            float: left
+        }
+
+        #titleDetails {
+            float: right;
+        }
+
+        h1 {
+            padding-left: 10px;
+            font-size: 3em;
+            margin-bottom: 0px;
+        }
+
+        #k {
             color: blue;
             font-weight: bolder;
+            font-size: 1.2em;
+        }
+
+        #oncepts {
+            vertical-align: .1em;
         }
 
         #outerBox {
@@ -63,7 +82,16 @@
 
 <body>
     <div id="outerBox">
-        <h1><span>k</span>oncepts</h1>
+        <div id="titleBar">
+            <div id="titleText">
+                <h1><span id="k">k</span><span id="oncepts">oncepts</span></h1>
+            </div>
+            <div id="titleDetails">
+                <iframe
+                    src="https://ghbtns.com/github-btn.html?user=smrowley&repo=koncepts&type=star&count=true&size=large"
+                    frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
+            </div>
+        </div>
         <h2 class="text-center">{{ hostname }}</h2>
         <div id="innerBox">
             <div class="accordion" id="accordionExample">
