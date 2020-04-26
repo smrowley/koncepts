@@ -36,5 +36,5 @@ script:
     --opt build-arg:BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ")
     --output type=image,name=$REPO_NAME,push=true
 
-#after_success:
-#  - curl -X POST https://hooks.microbadger.com/images/srowley/koncepts/q0FL6alOTg7pEjVy3Cg-PauDTWY=
+after_success:
+  - curl -X POST https://hooks.microbadger.com/images/srowley/koncepts/4-r475y3YNArRtLbhWpS-CeHghI=
