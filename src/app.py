@@ -41,7 +41,7 @@ def catchAll(path):
 
 class JsonResponse(Response):
     def __init__(self, message, status):
-        message = '{"hostname":"' + hostname + '","message":"' + message + '"}'
+        message = '{"hostname":"' + hostname + '","message":"' + message + '"}\n'
         Response.__init__(self, message, status=status,
                           mimetype="application/json")
 
