@@ -24,6 +24,14 @@ spec:
             - containerPort: 8080
               protocol: TCP
           imagePullPolicy: Always
+          volumeMounts:
+            - name: config
+              mountPath: /usr/local/etc/content
+      volumes:
+        - name: config
+          configMap:
+            name: myapp-config
+
 ---
 apiVersion: v1
 kind: Service
