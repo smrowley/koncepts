@@ -13,6 +13,8 @@ LABEL \
     org.label-schema.schema-version="1.0"
 
 ENV LISTEN_PORT=8080
+ENV METRICS_PORT=8081
+ENV prometheus_multiproc_dir=/tmp
 ENV CONTENT_PATH=/usr/local/etc/content
 ENV COMMIT_HASH=$VCS_REF
 
@@ -27,4 +29,4 @@ COPY content $CONTENT_PATH
 
 EXPOSE $LISTEN_PORT
 
-CMD [ "/bin/sh", "-c", "gunicorn -w 4 -b :${LISTEN_PORT} --access-logfile - --access-logformat '%(h)s %(l)s %(u)s %(t)s \"%(r)s\" %(s)s %(b)s' app:app" ]
+CMD [ "/bin/sh", "-c", "gunicorn -c gunicorn.config.py -w 4 -b :${LISTEN_PORT} --access-logfile - --access-logformat '%(h)s %(l)s %(u)s %(t)s \"%(r)s\" %(s)s %(b)s' app:app" ]

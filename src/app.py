@@ -2,15 +2,17 @@ from os import popen, environ, listdir
 from os.path import isfile, join
 from flask import Flask, render_template, request, Response
 from time import time
+from prometheus_flask_exporter.multiprocess import GunicornPrometheusMetrics
 import json
 
 startTime = time()
 
 app = Flask(__name__)
+metrics = GunicornPrometheusMetrics(app)
 
 hostname = popen("cat /etc/hostname").read().strip()
-timestampMessage = environ.get("TIMESTAMP_MESSAGE", default="Automate all the things!")
-contentPath = environ.get("CONTENT_PATH", default=".")
+timestampMessage = environ.get("TIMESTAMP_MESSAGE", "Automate all the things!")
+contentPath = environ.get("CONTENT_PATH", ".")
 
 contentFileNames = [f for f in listdir(
     contentPath) if isfile(join(contentPath, f))]
@@ -31,8 +33,8 @@ def timestamp():
 
 @app.route("/<path:path>")
 def catchAll(path):
-    delay = request.args.get("d", default=-1, type=int)
-    fail = request.args.get("f", default=-1, type=int)
+    delay = request.args.get("d", -1, type=int)
+    fail = request.args.get("f", -1, type=int)
 
     timeDelta = time() - startTime
 

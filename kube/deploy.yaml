@@ -23,6 +23,8 @@ spec:
           ports:
             - containerPort: 8080
               protocol: TCP
+            - containerPort: 8081
+              protocol: TCP
           imagePullPolicy: Always
           volumeMounts:
             - name: config
