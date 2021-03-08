@@ -9,16 +9,17 @@ startTime = time()
 app = Flask(__name__)
 
 hostname = popen("cat /etc/hostname").read().strip()
+timestampMessage = environ.get("TIMESTAMP_MESSAGE", default="Automate all the things!")
+contentPath = environ.get("CONTENT_PATH", default=".")
 
 contentFileNames = [f for f in listdir(
-    environ["CONTENT_PATH"]) if isfile(join(environ["CONTENT_PATH"], f))]
+    contentPath) if isfile(join(contentPath, f))]
 contentFiles = {}
 
 for fileName in contentFileNames:
     contentFiles[fileName] = open(
-        f"{environ['CONTENT_PATH']}/{fileName}", "r").read()
+        f"{contentPath}/{fileName}", "r").read()
 
-timestampMessage = environ.get("TIMESTAMP_MESSAGE", default="Automate all the things!")
 
 @app.route("/")
 def index():
@@ -26,7 +27,7 @@ def index():
 
 @app.route("/timestamp")
 def timestamp():
-    return JsonResponse({"message": timestampMessage, "timestamp": time()}, status=200, addHostname=False)
+    return JsonResponse({"message": timestampMessage, "timestamp": int(time())}, status=200, addHostname=False, indent=2)
 
 @app.route("/<path:path>")
 def catchAll(path):
@@ -45,11 +46,11 @@ def catchAll(path):
 
 
 class JsonResponse(Response):
-    def __init__(self, messageObj, status, addHostname=True):
+    def __init__(self, messageObj, status, addHostname=True, indent=None):
         if addHostname:
             messageObj["hostname"] = hostname
 
-        message = json.dumps(messageObj, indent=2) + '\n'
+        message = json.dumps(messageObj, indent=indent) + '\n'
         Response.__init__(self, message, status=status,
                           mimetype="application/json")
 
