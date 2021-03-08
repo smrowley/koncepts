@@ -32,27 +32,27 @@ def timestamp():
     return JsonResponse({"message": timestampMessage, "timestamp": int(time())}, status=200, addHostname=False, indent=2)
 
 @app.route("/<path:path>")
-def catchAll(path):
+def catch_all(path):
     delay = request.args.get("d", -1, type=int)
     fail = request.args.get("f", -1, type=int)
 
-    timeDelta = time() - startTime
+    time_delta = time() - startTime
 
-    if timeDelta < delay:
+    if time_delta < delay:
         return JsonResponse({"message": "too soon!"}, status=503)
 
-    if fail > 0 and timeDelta > fail:
+    if fail > 0 and time_delta > fail:
         return JsonResponse({"message": "catastrophic failure!"}, status=500)
 
     return JsonResponse({"message": "ok!"}, status=200)
 
 
 class JsonResponse(Response):
-    def __init__(self, messageObj, status, addHostname=True, indent=None):
-        if addHostname:
-            messageObj["hostname"] = hostname
+    def __init__(self, message_obj, status, add_hostname=True, indent=None):
+        if add_hostname:
+            message_obj["hostname"] = hostname
 
-        message = json.dumps(messageObj, indent=indent) + '\n'
+        message = json.dumps(message_obj, indent=indent) + '\n'
         Response.__init__(self, message, status=status,
                           mimetype="application/json")
 
