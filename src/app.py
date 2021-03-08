@@ -2,6 +2,7 @@ from os import popen, environ, listdir
 from os.path import isfile, join
 from flask import Flask, render_template, request, Response
 from time import time
+import json
 
 startTime = time()
 
@@ -17,11 +18,15 @@ for fileName in contentFileNames:
     contentFiles[fileName] = open(
         f"{environ['CONTENT_PATH']}/{fileName}", "r").read()
 
+timestampMessage = environ.get("TIMESTAMP_MESSAGE", default="Automate all the things!")
 
 @app.route("/")
 def index():
     return render_template("index.html", hostname=hostname, contentFiles=contentFiles, envvars=environ)
 
+@app.route("/timestamp")
+def timestamp():
+    return JsonResponse({"message": timestampMessage, "timestamp": time()}, status=200, addHostname=False)
 
 @app.route("/<path:path>")
 def catchAll(path):
@@ -31,17 +36,20 @@ def catchAll(path):
     timeDelta = time() - startTime
 
     if timeDelta < delay:
-        return JsonResponse("too soon!", status=503)
+        return JsonResponse({"message": "too soon!"}, status=503)
 
     if fail > 0 and timeDelta > fail:
-        return JsonResponse("catastrophic failure!", status=500)
+        return JsonResponse({"message": "catastrophic failure!"}, status=500)
 
-    return JsonResponse("ok", status=200)
+    return JsonResponse({"message": "ok!"}, status=200)
 
 
 class JsonResponse(Response):
-    def __init__(self, message, status):
-        message = '{"hostname":"' + hostname + '","message":"' + message + '"}\n'
+    def __init__(self, messageObj, status, addHostname=True):
+        if addHostname:
+            messageObj["hostname"] = hostname
+
+        message = json.dumps(messageObj, indent=2) + '\n'
         Response.__init__(self, message, status=status,
                           mimetype="application/json")
 
