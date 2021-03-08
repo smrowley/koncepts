@@ -1,6 +1,6 @@
 # Koncepts
 
-[![Build Status](https://travis-ci.org/game-of-things/game-room-service.svg?branch=master)](https://travis-ci.org/game-of-things/game-room-service)
+[![Build Status](https://travis-ci.org/smrowley/koncepts.svg?branch=master)](https://travis-ci.org/smrowley/koncepts)
 [![](https://images.microbadger.com/badges/commit/srowley/koncepts.svg)](https://microbadger.com/images/srowley/koncepts "Get your own commit badge on microbadger.com")
 [![](https://images.microbadger.com/badges/image/srowley/koncepts.svg)](https://microbadger.com/images/srowley/koncepts "Get your own image badge on microbadger.com")
 [![](https://images.microbadger.com/badges/version/srowley/koncepts.svg)](https://microbadger.com/images/srowley/koncepts "Get your own version badge on microbadger.com")
