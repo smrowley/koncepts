@@ -29,7 +29,7 @@ def index():
 
 @app.route("/timestamp")
 def timestamp():
-    return JsonResponse({"message": timestampMessage, "timestamp": int(time())}, status=200, addHostname=False, indent=2)
+    return JsonResponse({"message": timestampMessage, "timestamp": int(time())}, status=200, add_hostname=False, indent=2)
 
 @app.route("/<path:path>")
 def catch_all(path):
