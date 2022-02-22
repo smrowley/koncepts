@@ -1,0 +1,4 @@
+resources:
+- ../with-config-files
+patchesStrategicMerge:
+- service.yaml

@@ -1,15 +1,15 @@
 kind: Ingress
 apiVersion: networking.k8s.io/v1beta1
 metadata:
-  name: koncepts-demo
+  name: koncepts
   annotations:
     kubernetes.io/ingress.class: traefik
     traefik.frontend.rule.type: PathPrefixStrip #used to strip path prefix after routing is complete
 spec:
   rules:
-    - http:
-        paths:
-          - path: /koncepts
-            backend:
-              serviceName: koncepts-demo
-              servicePort: 8080
+  - http:
+      paths:
+      - path: /koncepts
+        backend:
+          serviceName: koncepts-demo
+          servicePort: 8080

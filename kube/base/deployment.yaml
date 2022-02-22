@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: koncepts
+spec:
+  strategy:
+    type: RollingUpdate
+  triggers:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: koncepts
+  template:
+    metadata:
+      labels:
+        app: koncepts
+    spec:
+      containers:
+      - name: koncepts
+        image: srowley/koncepts:latest
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        - containerPort: 8081
+          protocol: TCP
+        imagePullPolicy: Always
