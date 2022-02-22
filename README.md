@@ -17,10 +17,28 @@ The service is a Flask Python app running on gunicorn. It is using a Jinja templ
 
 ## Deploying the app
 
-You can quickly deploy the app in k8s with the following:
+You can quickly deploy the app in k8s with the following after cloning the repo:
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/smrowley/koncepts/master/kube/deploy.yaml
+kubectl apply -k kube/base
+```
+
+### Example: Deploy with config files mounted as volume
+
+```
+kubectl apply -k kube/overlays/with-config-files
+```
+
+### Example: Deploy with LoadBalancer service ingress
+
+```
+kubectl apply -k kube/overlays/expose-lb
+```
+
+### Example: Deploy with Ingress configured for Traefik
+
+```
+kubectl apply -k kube/overlays/expose-traefik
 ```
 
 ## Index page
