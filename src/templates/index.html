@@ -125,7 +125,9 @@
                                         clip-rule="evenodd" />
                                 </svg>&nbsp;{{ key }}</h4>
                             <p class="file-content">
-                                {{ contentFiles[key] }}
+                                <pre class="code"><code>
+                                    {{ contentFiles[key] }}
+                                </code></pre>
                             </p>
                             {% endfor %}
                         </div>
