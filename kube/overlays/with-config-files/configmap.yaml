@@ -5,3 +5,47 @@ metadata:
 data:
   file1: This is a sample file
   sample.txt: My sample text file
+  file3.txt: |
+    config.value=test
+    url=https://example.com
+    log.level=DEBUG
+  test.yaml: |
+    application:
+      name: test
+      log:
+        level: INFO
+      db:
+        url: jdbc://companydb:5432
+        user: ${DB_USERNAME}
+        password: ${DB_PASSWORD}
+  log4j.xml: |
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+    <log4j:configuration xmlns:log4j="https://jakarta.apache.org/log4j/"
+      debug="false">
+
+    <!-- console appender -->
+    <appender name="console" class="org.apache.log4j.ConsoleAppender">
+      <param name="Target" value="System.out" />
+      <layout class="org.apache.log4j.PatternLayout">
+        <param name="ConversionPattern" value="%-5p %c{1} - %m%n" />
+      </layout>
+      <filter class="org.apache.log4j.varia.LevelMatchFilter">
+        <param name="LevelToMatch" value="INFO" />
+            <param name="AcceptOnMatch" value="true" />
+      </filter>
+      <filter class="org.apache.log4j.varia.DenyAllFilter"/>
+    </appender>
+
+
+    <logger name="com.journaldev.log4j" additivity="false">
+      <level value="DEBUG" />
+      <appender-ref ref="console" />
+    </logger>
+
+    <root>
+      <priority value="DEBUG" />
+      <appender-ref ref="console" />
+    </root>
+
+    </log4j:configuration>
