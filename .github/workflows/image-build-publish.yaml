@@ -23,7 +23,9 @@ jobs:
       run: |
         export REPO_NAME=srowley/$IMAGE_NAME:latest
         export COMMIT_SHA_SHORT=$(echo $GITHUB_SHA | cut -c-7)
+    - name: print
+      run: |
         echo $IMAGE_NAME
         echo $COMMIT_SHA_SHORT
         echo $REPO_NAME
-        echo TARGET_PLATFORMS
+        echo $TARGET_PLATFORMS
