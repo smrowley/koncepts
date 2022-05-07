@@ -37,15 +37,15 @@ jobs:
 
         echo ${{secrets.DOCKERHUB_PASSWORD}} | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
 
-        buildctl build
-        --progress=plain
-        --frontend=dockerfile.v0
-        --local context=.
-        --local dockerfile=.
-        --opt filename=Dockerfile
-        --opt platform=$TARGET_PLATFORMS
-        --opt build-arg:VCS_REF=$COMMIT_SHA_SHORT
-        --opt build-arg:BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ")
+        buildctl build \
+        --progress=plain \
+        --frontend=dockerfile.v0 \
+        --local context=. \
+        --local dockerfile=. \
+        --opt filename=Dockerfile \
+        --opt platform=$TARGET_PLATFORMS \
+        --opt build-arg:VCS_REF=$COMMIT_SHA_SHORT \
+        --opt build-arg:BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ") \
         --output type=image,name=$REPO_NAME,push=true
 
         curl -X POST https://hooks.microbadger.com/images/srowley/koncepts/4-r475y3YNArRtLbhWpS-CeHghI=
