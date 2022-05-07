@@ -1,0 +1,29 @@
+name: Container image build and publish
+
+on:
+  push:
+    branches:
+    - main
+    
+env:
+  COMMIT_SHA_SHORT: $(echo $GITHUB_SHA | cut -c-7)
+  IMAGE_NAME: koncepts
+  REPO_NAME: srowley/$IMAGE_NAME:latest
+  TARGET_PLATFORMS: linux/amd64,linux/arm/v7 #,linux/arm64
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+# will switch to container build later
+#    container: quay.io/containers/buildah
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: prework
+      run: |
+        echo $IMAGE_NAME
+        echo $COMMIT_SHA_SHORT
+        echo $REPO_NAME
+        echo TARGET_PLATFORMS
