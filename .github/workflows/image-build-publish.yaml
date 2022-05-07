@@ -47,5 +47,3 @@ jobs:
         --opt build-arg:VCS_REF=$COMMIT_SHA_SHORT \
         --opt build-arg:BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ") \
         --output type=image,name=$REPO_NAME,push=true
-
-        echo Completed
