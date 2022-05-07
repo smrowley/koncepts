@@ -1,4 +1,4 @@
-name: Container image build and publish
+name: build
 
 on:
   push:
@@ -48,4 +48,4 @@ jobs:
         --opt build-arg:BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ") \
         --output type=image,name=$REPO_NAME,push=true
 
-        curl -X POST https://hooks.microbadger.com/images/srowley/koncepts/4-r475y3YNArRtLbhWpS-CeHghI=
+        echo Completed
