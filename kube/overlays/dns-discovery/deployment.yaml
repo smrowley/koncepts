@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: koncepts
+spec:
+  template:
+    spec:
+      containers:
+      - name: koncepts
+        env:
+        - name: DISCOVERY_HOSTNAME
+          value: koncepts-headless

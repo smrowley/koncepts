@@ -1,0 +1,5 @@
+resources:
+- ../../base
+- service-headless.yaml
+patchesStrategicMerge:
+- deployment.yaml
