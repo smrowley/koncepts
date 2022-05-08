@@ -1,5 +1,5 @@
 resources:
-- ../../base
+- ../expose-route
 - secret.yaml
 patchesStrategicMerge:
 - deployment.yaml

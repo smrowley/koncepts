@@ -1,4 +1,4 @@
 resources:
-- ../with-config-files
+- ../dns-discovery
 patchesStrategicMerge:
 - service.yaml
