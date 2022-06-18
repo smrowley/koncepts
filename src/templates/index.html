@@ -118,7 +118,7 @@
                     <div id="collapseFileContents" class="collapse show" aria-labelledby="headingOne"
                         data-parent="#accordionExample">
                         <div class="card-body text-left">
-                            {% for key in contentFiles %}
+                            {% for key in content_files %}
                             <h4>
                                 <svg class="bi bi-file-text" width="1em" height="1em" viewBox="0 0 16 16"
                                     fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -131,7 +131,7 @@
                                 </svg>&nbsp;{{ key }}</h4>
                             <p class="file-content">
                                 <pre class="code"><code>
-{{ contentFiles[key] }}
+{{ content_files[key] }}
                                 </code></pre>
                             </p>
                             {% endfor %}

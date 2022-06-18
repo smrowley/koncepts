@@ -12,49 +12,49 @@ app = Flask(__name__)
 metrics = GunicornPrometheusMetrics(app)
 
 hostname = popen("cat /etc/hostname").read().strip()
-timestampMessage = environ.get("TIMESTAMP_MESSAGE", "Automate all the things!")
-contentPath = environ.get("CONTENT_PATH", ".")
+timestamp_message = environ.get("TIMESTAMP_MESSAGE", "Automate all the things!")
+content_path = environ.get("CONTENT_PATH", ".")
 
-contentFileNames = [f for f in listdir(
-    contentPath) if isfile(join(contentPath, f))]
-contentFiles = {}
+content_file_names = [f for f in listdir(
+    content_path) if isfile(join(content_path, f))]
+content_files = {}
 
-for fileName in contentFileNames:
-    contentFiles[fileName] = open(
-        f"{contentPath}/{fileName}", "r").read()
+for file_name in content_file_names:
+    content_files[file_name] = open(
+        f"{content_path}/{file_name}", "r").read()
 
-discoveryHostname = environ.get("DISCOVERY_HOSTNAME", None)
+discovery_hostname = environ.get("DISCOVERY_HOSTNAME", None)
 
 pods = [("pod1", "172.1.1.1"), ("pod2", "172.1.1.2")]
 
 @app.route("/")
 def index():
-    return render_template("index.html", hostname=hostname, contentFiles=contentFiles, envvars=environ, pods=pods)
+    return render_template("index.html", hostname=hostname, content_files=content_files, envvars=environ, pods=pods)
 
 @app.route("/timestamp")
 def timestamp():
-    return JsonResponse({"message": timestampMessage, "timestamp": int(time())}, status=200, add_hostname=False, indent=2)
+    return JsonResponse({"message": timestamp_message, "timestamp": int(time())}, status=200, add_hostname=False, indent=2)
 
 @app.route("/discover")
 def discover():
     pods = []
 
-    #if discoveryHostname != None:
+    #if discovery_hostname != None:
     #    dns.resolver.
 
     return JsonResponse({"pods": pods}, status=200, add_hostname=True, indent=2)
 
 @app.route("/<path:path>")
 def catch_all(path):
-    delay = request.args.get("d", -1, type=int)
-    fail = request.args.get("f", -1, type=int)
+    startup_delay = request.args.get("d", -1, type=int)
+    failure_delay = request.args.get("f", -1, type=int)
 
     time_delta = time() - startTime
 
-    if time_delta < delay:
+    if time_delta < startup_delay:
         return JsonResponse({"message": "too soon!"}, status=503)
 
-    if fail > 0 and time_delta > fail:
+    if failure_delay > 0 and time_delta > failure_delay:
         return JsonResponse({"message": "catastrophic failure!"}, status=500)
 
     return JsonResponse({"message": "ok!"}, status=200)
