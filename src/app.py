@@ -46,15 +46,15 @@ def discover():
 
 @app.route("/<path:path>")
 def catch_all(path):
-    startup_delay = request.args.get("d", -1, type=int)
-    failure_delay = request.args.get("f", -1, type=int)
+    startup_delay = request.args.get("startup_delay", -1, type=int)
+    failure_delay = request.args.get("failure_delay", -1, type=int)
 
     time_delta = time() - startTime
 
     if time_delta < startup_delay:
         return JsonResponse({"message": "too soon!"}, status=503)
 
-    if failure_delay > 0 and time_delta > failure_delay:
+    if failure_delay > -1 and time_delta > failure_delay:
         return JsonResponse({"message": "catastrophic failure!"}, status=500)
 
     return JsonResponse({"message": "ok!"}, status=200)
