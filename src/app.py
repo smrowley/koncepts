@@ -4,6 +4,7 @@ from flask import Flask, render_template, request, Response
 from time import time
 from prometheus_flask_exporter.multiprocess import GunicornPrometheusMetrics
 import json
+import dns.resolver
 
 startTime = time()
 
@@ -22,14 +23,26 @@ for fileName in contentFileNames:
     contentFiles[fileName] = open(
         f"{contentPath}/{fileName}", "r").read()
 
+discoveryHostname = environ.get("DISCOVERY_HOSTNAME", None)
+
+pods = [("pod1", "172.1.1.1"), ("pod2", "172.1.1.2")]
 
 @app.route("/")
 def index():
-    return render_template("index.html", hostname=hostname, contentFiles=contentFiles, envvars=environ)
+    return render_template("index.html", hostname=hostname, contentFiles=contentFiles, envvars=environ, pods=pods)
 
 @app.route("/timestamp")
 def timestamp():
     return JsonResponse({"message": timestampMessage, "timestamp": int(time())}, status=200, add_hostname=False, indent=2)
+
+@app.route("/discover")
+def discover():
+    pods = []
+
+    #if discoveryHostname != None:
+    #    dns.resolver.
+
+    return JsonResponse({"pods": pods}, status=200, add_hostname=True, indent=2)
 
 @app.route("/<path:path>")
 def catch_all(path):

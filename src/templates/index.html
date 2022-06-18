@@ -79,6 +79,11 @@
             color: white;
             padding: 0px 20px 5px 20px
         }
+
+        .pod-info {
+            width: 12rem;
+            display: inline-block;
+        }
     </style>
 </head>
 
@@ -126,7 +131,7 @@
                                 </svg>&nbsp;{{ key }}</h4>
                             <p class="file-content">
                                 <pre class="code"><code>
-                                    {{ contentFiles[key] }}
+{{ contentFiles[key] }}
                                 </code></pre>
                             </p>
                             {% endfor %}
@@ -152,6 +157,32 @@
                         </div>
                     </div>
                 </div>
+                <!--
+                <div class="card">
+                    <div class="card-header" id="headingThree">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
+                                data-target="#collapseReplicas" aria-expanded="false" aria-controls="collapseReplicas">
+                                Replicas
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseReplicas" class="collapse" aria-labelledby="headingThree"
+                        data-parent="#accordionExample">
+                        <div class="card-body text-left">
+                            {% for name, ip in pods %}
+                            <div class="card pod-info">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ name }}</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted"><strong>IP:</strong> {{ ip }}</h6>
+                                    <a href="#" class="card-link">Ping</a>
+                                    <a href="#" class="card-link">Crash</a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                </div>
+                -->
             </div>
         </div>
     </div>
