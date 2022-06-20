@@ -60,8 +60,8 @@ jobs:
         echo Pushing build manifest to quay.io
         buildah manifest push --all koncepts docker://quay.io/$IMAGE_NAME
 
-        echo Logging in with skopeo to docker.io and quay.io
-        echo "${{secrets.DOCKER_PASSWORD}}" | skopeo login -u ${{secrets.DOCKER_USERNAME}} --password-stdin docker.io
-        echo "${{secrets.QUAY_PASSWORD}}" | skopeo login -u ${{secrets.QUAY_USERNAME}} --password-stdin quay.io
-        echo Copying image from quay.io to docker.io
-        skopeo copy --multi-arch all docker://quay.io/$IMAGE_NAME docker://docker.io/$IMAGE_NAME
+        #echo Logging in with skopeo to docker.io and quay.io
+        #echo "${{secrets.DOCKER_PASSWORD}}" | skopeo login -u ${{secrets.DOCKER_USERNAME}} --password-stdin docker.io
+        #echo "${{secrets.QUAY_PASSWORD}}" | skopeo login -u ${{secrets.QUAY_USERNAME}} --password-stdin quay.io
+        #echo Copying image from quay.io to docker.io
+        #skopeo copy --multi-arch all docker://quay.io/$IMAGE_NAME docker://docker.io/$IMAGE_NAME
