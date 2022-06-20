@@ -11,20 +11,21 @@ on:
     - requirements.txt
     - .github/**
 
+env:
+  IMAGE_NAME: srowley/koncepts:latest
+
 jobs:
 
   build:
 
     runs-on: ubuntu-latest
-    container:
-      image: quay.io/srowley/multiarch-build:latest
-      env:
-        IMAGE_NAME: srowley/koncepts:latest
 
     steps:
     - uses: actions/checkout@v3
     - name: build
       run: |
+        apt-get install -y buildah skopeo qemu-user-static
+        
         export COMMIT_SHA_SHORT=$(echo $GITHUB_SHA | cut -c-7)
 
         echo Build image name: $IMAGE_NAME
