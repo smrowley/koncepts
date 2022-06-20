@@ -51,17 +51,17 @@ The app will also handle requests to any path, log the request, and provide a re
 There are also a few query parameters that you can specify to will cause various status codes and messages to be given in the reponse:
 
 * `startup_delay` parameter looks for a positive integer value, and represents the number of seconds after the python app has started before it will return `200` responses. Until that time, it will return `503` response codes.
-  * eg. `/test?startup_delay=10` will return `503` responses for 10 seconds.
+  * eg. `$HOSTNAME/test?startup_delay=10` will return `503` responses for 10 seconds.
   * Default value is `-1`, which will immediately return a `200` on startup.
 * `failure_delay` parameter works similar to `startup_delay`, but will return `500` status codes after the integer value in seconds beyond the python app starting.
-  * eg. `/test?failure_delay=10` will return `500` responses after the first 10 seconds of the app being started.
+  * eg. `$HOSTNAME/test?failure_delay=10` will return `500` responses after the first 10 seconds of the app being started.
   * Default value is `-1`, which will never return a `500` failure.
   * Note: this parameter is absolute, and has no effect from the value set by `startup_delay`.
-    * Example: `/test?startup_delay=10&failure_delay=10` will never return a `200` response. Only `503` prior to 10 seconds, and `500` after 10 seconds has lapsed.
+    * Example: `$HOSTNAME/test?startup_delay=10&failure_delay=10` will never return a `200` response. Only `503` prior to 10 seconds, and `500` after 10 seconds has lapsed.
 * `readiness_period` and `readiness_duration` parameters can be used to set a consistent interval of readiness/unreadiness.
   * `readiness_period` expects a positive integer value, which sets the interval period.
   * `readiness_duration` also expects a positive integer, and is the amount of time at the beginning of each period the response will return a `200`.
-  * eg. `/test?readiness_period=10&readiness_duration=5` will return a `200` for the first five seconds of every ten second interval, and a `503` for the other five seconds.
+  * eg. `$HOSTNAME/test?readiness_period=10&readiness_duration=5` will return a `200` for the first five seconds of every ten second interval, and a `503` for the other five seconds.
   * Note: the readiness parameters only come into effect after `startup_delay` and `failure_delay` success conditions are met. However, the start time of the intervals is absolute to the startup time of the app.
 
 ### Curl loop for testing
@@ -71,7 +71,7 @@ The following is an example script that will curl the app at one second interval
 ```sh
 while [ true ]
 do
-  curl 'http://<host>/test?startup_delay=8&failure_delay=45&readiness_period=10&readiness_duration=5'
+  curl '$HOSTNAME/test?startup_delay=8&failure_delay=45&readiness_period=10&readiness_duration=5'
   sleep 1
 done
 ```
