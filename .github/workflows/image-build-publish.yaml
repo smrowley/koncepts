@@ -20,8 +20,6 @@ jobs:
       image: quay.io/srowley/multiarch-build:latest
       env:
         IMAGE_NAME: koncepts
-      volumes:
-        - .:/src
 
     steps:
     - uses: actions/checkout@v3
@@ -42,7 +40,7 @@ jobs:
           --file Dockerfile \
           --build-arg VCS_REF=$COMMIT_SHA_SHORT \
           --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ") \
-          /src
+          /github/home
 
         buildah --storage-drive=vfs bud \
           --tag quay.io/$REPO_NAME \
@@ -51,7 +49,7 @@ jobs:
           --file Dockerfile \
           --build-arg VCS_REF=$COMMIT_SHA_SHORT \
           --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ") \
-          /src
+          /github/home
 
         buildah manifest push --all koncepts quay.io/$REPO_NAME
 
