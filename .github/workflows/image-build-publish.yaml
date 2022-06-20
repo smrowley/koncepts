@@ -30,4 +30,4 @@ jobs:
         echo Build image name: $IMAGE_NAME
         echo Commit SHA: $COMMIT_SHA_SHORT
 
-        echo "${{secrets.QUAY_PASSWORD}}" | buildah login -u ${{secrets.QUAY_USERNAME}} --password-stdin quay.io
+        echo "${{secrets.QUAY_PASSWORD}}"
