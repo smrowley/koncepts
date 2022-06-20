@@ -27,8 +27,8 @@ jobs:
       run: |
         export COMMIT_SHA_SHORT=$(echo $GITHUB_SHA | cut -c-7)
 
-        #echo ${{secrets.DOCKERHUB_PASSWORD}} | buildah login -u ${{secrets.DOCKERHUB_USERNAME}} docker.io --password-stdin
-        #echo ${{secrets.QUAY_PASSWORD}} | buildah login -u ${{secrets.QUAY_USERNAME}} quay.io --password-stdin
+        echo ${{secrets.DOCKERHUB_PASSWORD}} | buildah login -u ${{secrets.DOCKERHUB_USERNAME}} docker.io --password-stdin
+        echo ${{secrets.QUAY_PASSWORD}} | buildah login -u ${{secrets.QUAY_USERNAME}} quay.io --password-stdin
 
         #buildah manifest create koncepts
 
