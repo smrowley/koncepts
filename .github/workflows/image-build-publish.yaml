@@ -11,17 +11,17 @@ on:
     - requirements.txt
     - .github/**
 
-env:
-  IMAGE_NAME: koncepts
-  TARGET_PLATFORMS: linux/amd64,linux/arm/v7 #,linux/arm64
-
 jobs:
 
   build:
 
     runs-on: ubuntu-latest
-# will switch to container build later
-#    container: quay.io/containers/buildah
+    container:
+      image: quay.io/srowley/multiarch-build:latest
+      env:
+        IMAGE_NAME: koncepts
+      volumes:
+        - .:/src
 
     steps:
     - uses: actions/checkout@v3
@@ -29,24 +29,30 @@ jobs:
       run: |
         export REPO_NAME=srowley/$IMAGE_NAME:latest
         export COMMIT_SHA_SHORT=$(echo $GITHUB_SHA | cut -c-7)
-        export BUILDKIT_HOST="docker-container://buildkitd"
 
-        docker container run --rm --privileged multiarch/qemu-user-static --reset -p yes
-        docker container run -d --rm --name buildkitd --privileged moby/buildkit:latest
-        sudo docker container cp buildkitd:/usr/bin/buildctl /usr/local/bin/
+        echo ${{secrets.DOCKERHUB_PASSWORD}} | buildah login -u ${{secrets.DOCKERHUB_USERNAME}} docker.io --password-stdin
+        echo ${{secrets.QUAY_PASSWORD}} | buildah login -u ${{secrets.QUAY_USERNAME}} quay.io --password-stdin
 
-        echo ${{secrets.DOCKERHUB_PASSWORD}} | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
-        #echo ${{secrets.QUAY_PASSWORD}} | skopeo login -u ${{secrets.QUAY_USERNAME}} quay.io --password-stdin
+        buildah manifest create koncepts
 
-        buildctl build \
-        --progress=plain \
-        --frontend=dockerfile.v0 \
-        --local context=. \
-        --local dockerfile=. \
-        --opt filename=Dockerfile \
-        --opt platform=$TARGET_PLATFORMS \
-        --opt build-arg:VCS_REF=$COMMIT_SHA_SHORT \
-        --opt build-arg:BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ") \
-        --output type=image,name=$REPO_NAME,push=true
+        buildah --storage-drive=vfs bud \
+          --tag quay.io/$REPO_NAME \
+          --manifest koncepts \
+          --arch amd64 \
+          --file Dockerfile \
+          --build-arg VCS_REF=$COMMIT_SHA_SHORT \
+          --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ") \
+          /src
 
-        #skopeo copy --multi-arch all docker://docker.io/$REPO_NAME docker://quay.io/$REPO_NAME
+        buildah --storage-drive=vfs bud \
+          --tag quay.io/$REPO_NAME \
+          --manifest koncepts \
+          --arch arm \
+          --file Dockerfile \
+          --build-arg VCS_REF=$COMMIT_SHA_SHORT \
+          --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ") \
+          /src
+
+        buildah manifest push --all koncepts quay.io/$REPO_NAME
+
+        skopeo copy --multi-arch all docker://quay.io/$REPO_NAME docker://docker.io/$REPO_NAME
