@@ -19,14 +19,12 @@ jobs:
     container:
       image: quay.io/srowley/multiarch-build:latest
       env:
-        IMAGE_NAME: koncepts
+        IMAGE_NAME: srowley/koncepts:latest
 
     steps:
     - uses: actions/checkout@v3
     - name: build
       run: |
-        echo Hello!
-        export REPO_NAME=srowley/$IMAGE_NAME:latest
         export COMMIT_SHA_SHORT=$(echo $GITHUB_SHA | cut -c-7)
 
         echo ${{secrets.DOCKERHUB_PASSWORD}} | buildah login -u ${{secrets.DOCKERHUB_USERNAME}} docker.io --password-stdin
@@ -34,8 +32,8 @@ jobs:
 
         buildah manifest create koncepts
 
-        buildah --storage-drive=vfs bud \
-          --tag quay.io/$REPO_NAME \
+        buildah --storage-driver=vfs bud \
+          --tag quay.io/$IMAGE_NAME \
           --manifest koncepts \
           --arch amd64 \
           --file Dockerfile \
@@ -43,8 +41,8 @@ jobs:
           --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ") \
           /github/home
 
-        buildah --storage-drive=vfs bud \
-          --tag quay.io/$REPO_NAME \
+        buildah --storage-driver=vfs bud \
+          --tag quay.io/$IMAGE_NAME \
           --manifest koncepts \
           --arch arm \
           --file Dockerfile \
@@ -52,6 +50,6 @@ jobs:
           --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ") \
           /github/home
 
-        buildah manifest push --all koncepts quay.io/$REPO_NAME
+        buildah manifest push --all koncepts quay.io/$IMAGE_NAME
 
-        skopeo copy --multi-arch all docker://quay.io/$REPO_NAME docker://docker.io/$REPO_NAME
+        skopeo copy --multi-arch all docker://quay.io/$IMAGE_NAME docker://docker.io/$IMAGE_NAME
