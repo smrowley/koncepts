@@ -31,10 +31,13 @@ jobs:
         echo Build image name: $IMAGE_NAME
         echo Commit SHA: $COMMIT_SHA_SHORT
 
+        echo Logging in to quay.io
         echo "${{secrets.QUAY_PASSWORD}}" | buildah login -u ${{secrets.QUAY_USERNAME}} --password-stdin quay.io
 
+        echo Creating image build manifest with buildah
         buildah manifest create koncepts
 
+        echo Building image for amd64
         buildah bud \
           --tag quay.io/$IMAGE_NAME \
           --manifest koncepts \
@@ -44,6 +47,7 @@ jobs:
           --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ") \
           .
 
+        echo Building image for arm
         buildah bud \
           --tag quay.io/$IMAGE_NAME \
           --manifest koncepts \
@@ -53,7 +57,11 @@ jobs:
           --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ") \
           .
 
+        echo Pushing build manifest to quay.io
         buildah manifest push --all koncepts docker://quay.io/$IMAGE_NAME
 
+        echo Logging in with skopeo to docker.io and quay.io
         echo "${{secrets.DOCKER_PASSWORD}}" | skopeo login -u ${{secrets.DOCKER_USERNAME}} --password-stdin docker.io
+        echo "${{secrets.QUAY_PASSWORD}}" | skopeo login -u ${{secrets.QUAY_USERNAME}} --password-stdin quay.io
+        echo Copying image from quay.io to docker.io
         skopeo copy --multi-arch all docker://quay.io/$IMAGE_NAME docker://docker.io/$IMAGE_NAME
