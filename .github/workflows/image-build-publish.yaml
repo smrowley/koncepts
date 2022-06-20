@@ -54,3 +54,6 @@ jobs:
           .
 
         buildah manifest push --all koncepts docker://quay.io/$IMAGE_NAME
+
+        echo "${{secrets.DOCKER_PASSWORD}}" | skopeo login -u ${{secrets.DOCKER_USERNAME}} --password-stdin docker.io
+        skopeo copy --multi-arch all docker://quay.io/$IMAGE_NAME docker://docker.io/$IMAGE_NAME
