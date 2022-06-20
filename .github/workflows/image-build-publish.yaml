@@ -27,29 +27,5 @@ jobs:
       run: |
         export COMMIT_SHA_SHORT=$(echo $GITHUB_SHA | cut -c-7)
 
-        echo "${{secrets.DOCKERHUB_PASSWORD}}" | buildah login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin docker.io
-        echo "${{secrets.QUAY_PASSWORD}}" | buildah login -u ${{secrets.QUAY_USERNAME}} --password-stdin quay.io
-
-        #buildah manifest create koncepts
-
-        #buildah --storage-driver=vfs bud \
-        #  --tag quay.io/$IMAGE_NAME \
-        #  --manifest koncepts \
-        #  --arch amd64 \
-        #  --file Dockerfile \
-        #  --build-arg VCS_REF=$COMMIT_SHA_SHORT \
-        #  --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ") \
-        #  /github/home
-
-        #buildah --storage-driver=vfs bud \
-        #  --tag quay.io/$IMAGE_NAME \
-        #  --manifest koncepts \
-        #  --arch arm \
-        #  --file Dockerfile \
-        #  --build-arg VCS_REF=$COMMIT_SHA_SHORT \
-        #  --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ") \
-        #  /github/home
-
-        #buildah manifest push --all koncepts quay.io/$IMAGE_NAME
-
-        #skopeo copy --multi-arch all docker://quay.io/$IMAGE_NAME docker://docker.io/$IMAGE_NAME
+        echo $IMAGE_NAME
+        echo $COMMIT_SHA_SHORT
