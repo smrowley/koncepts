@@ -27,5 +27,7 @@ jobs:
       run: |
         export COMMIT_SHA_SHORT=$(echo $GITHUB_SHA | cut -c-7)
 
-        echo $IMAGE_NAME
-        echo $COMMIT_SHA_SHORT
+        echo Build image name: $IMAGE_NAME
+        echo Commit SHA: $COMMIT_SHA_SHORT
+
+        echo "${{secrets.QUAY_PASSWORD}}" | buildah login -u ${{secrets.QUAY_USERNAME}} --password-stdin quay.io
