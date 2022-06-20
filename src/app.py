@@ -54,21 +54,23 @@ def catch_all(path):
     time_delta = int(time() - startTime)
 
     if time_delta < startup_delay:
-        return JsonResponse({"message": "too soon!"}, status=503)
+        return JsonResponse({"message": "too soon!"}, status=503, running_time=time_delta)
 
     if failure_delay > -1 and time_delta > failure_delay:
-        return JsonResponse({"message": "catastrophic failure!"}, status=500)
+        return JsonResponse({"message": "catastrophic failure!"}, status=500, running_time=time_delta)
 
     if time_delta % readiness_period >= readiness_duration:
-        return JsonResponse({"message": "unready!"}, status=503)
+        return JsonResponse({"message": "unready!"}, status=503, running_time=time_delta)
 
-    return JsonResponse({"message": "ok!"}, status=200)
+    return JsonResponse({"message": "ok!"}, status=200, running_time=time_delta)
 
 
 class JsonResponse(Response):
-    def __init__(self, message_obj, status, add_hostname=True, indent=None):
+    def __init__(self, message_obj, status, add_hostname=True, indent=None, running_time=None):
         if add_hostname:
             message_obj["hostname"] = hostname
+        if running_time != None:
+            message_obj["running_time"] = running_time
 
         message = json.dumps(message_obj, indent=indent) + '\n'
         Response.__init__(self, message, status=status,
