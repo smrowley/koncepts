@@ -31,8 +31,26 @@ jobs:
         echo Build image name: $IMAGE_NAME
         echo Commit SHA: $COMMIT_SHA_SHORT
 
-        echo Isolation: $BUILDAH_ISOLATION
-
-        #echo "${{secrets.QUAY_PASSWORD}}" | buildah login -u ${{secrets.QUAY_USERNAME}} --password-stdin quay.io
+        echo "${{secrets.QUAY_PASSWORD}}" | buildah login -u ${{secrets.QUAY_USERNAME}} --password-stdin quay.io
 
         buildah manifest create koncepts
+
+        buildah bud \
+          --tag quay.io/$IMAGE_NAME \
+          --manifest koncepts \
+          --arch amd64 \
+          --file Dockerfile \
+          --build-arg VCS_REF=$COMMIT_SHA_SHORT \
+          --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ") \
+          /github/home
+
+        buildah bud \
+          --tag quay.io/$IMAGE_NAME \
+          --manifest koncepts \
+          --arch arm \
+          --file Dockerfile \
+          --build-arg VCS_REF=$COMMIT_SHA_SHORT \
+          --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ") \
+          /github/home
+
+        buildah manifest push --all koncepts quay.io/$IMAGE_NAME
