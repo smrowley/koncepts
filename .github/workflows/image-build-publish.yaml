@@ -42,7 +42,7 @@ jobs:
           --file Dockerfile \
           --build-arg VCS_REF=$COMMIT_SHA_SHORT \
           --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ") \
-          /github/home
+          .
 
         buildah bud \
           --tag quay.io/$IMAGE_NAME \
@@ -51,6 +51,6 @@ jobs:
           --file Dockerfile \
           --build-arg VCS_REF=$COMMIT_SHA_SHORT \
           --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ") \
-          /github/home
+          .
 
         buildah manifest push --all koncepts quay.io/$IMAGE_NAME
