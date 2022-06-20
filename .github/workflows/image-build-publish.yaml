@@ -36,6 +36,7 @@ jobs:
         sudo docker container cp buildkitd:/usr/bin/buildctl /usr/local/bin/
 
         echo ${{secrets.DOCKERHUB_PASSWORD}} | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
+        echo ${{secrets.QUAY_PASSWORD}} | skopeo login -u ${{secrets.QUAY_USERNAME}} quay.io --password-stdin
 
         buildctl build \
         --progress=plain \
@@ -47,3 +48,5 @@ jobs:
         --opt build-arg:VCS_REF=$COMMIT_SHA_SHORT \
         --opt build-arg:BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ") \
         --output type=image,name=$REPO_NAME,push=true
+
+        skopeo copy --multi-arch all docker://docker.io/$REPO_NAME docker://quay.io/$REPO_NAME
