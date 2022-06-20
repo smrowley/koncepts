@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: koncepts
-        image: srowley/koncepts:latest
+        image: quay.io/srowley/koncepts:latest
         ports:
         - containerPort: 8080
           protocol: TCP
