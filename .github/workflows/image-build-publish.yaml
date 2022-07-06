@@ -57,6 +57,16 @@ jobs:
           --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ") \
           .
 
+        echo Building image for arm64
+        buildah bud \
+          --tag quay.io/$IMAGE_NAME \
+          --manifest koncepts \
+          --arch arm64 \
+          --file Dockerfile \
+          --build-arg VCS_REF=$COMMIT_SHA_SHORT \
+          --build-arg BUILD_DATE=$(date -u +"%Y-%m-%dT%TZ") \
+          .
+
         echo Pushing build manifest to quay.io
         buildah manifest push --all koncepts docker://quay.io/$IMAGE_NAME
 
