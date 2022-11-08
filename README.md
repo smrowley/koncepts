@@ -2,7 +2,7 @@
 
 ![example workflow](https://github.com/smrowley/koncepts/actions/workflows/image-build-publish.yaml/badge.svg)
 
-Image is hosted on [Docker Hub](https://hub.docker.com/r/srowley/koncepts)
+Image is hosted on [quay.io](https://quay.io/srowley/koncepts)
 
 Koncepts is an application for exercising Kubernetes concepts to newer Kubernetes users, as well as testing various configurations.
 
