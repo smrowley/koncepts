@@ -1,4 +1,4 @@
-gunicorn==20.0.4
+gunicorn==22.0.0
 Flask
 prometheus_flask_exporter
 dnspython
