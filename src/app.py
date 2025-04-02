@@ -6,8 +6,10 @@ from prometheus_flask_exporter.multiprocess import GunicornPrometheusMetrics
 import json
 import dns.resolver
 import hostutils
+import random
 
 startTime = time()
+random_offset = random.randint(0, 10) # used to create randomization on readiness intervals between pods
 
 app = Flask(__name__)
 metrics = GunicornPrometheusMetrics(app)
@@ -66,7 +68,7 @@ def catch_all(path):
     if failure_delay > -1 and time_delta > failure_delay:
         return JsonResponse({"message": "catastrophic failure!"}, status=500, running_time=time_delta)
 
-    if time_delta % readiness_period >= readiness_duration:
+    if (time_delta + random_offset) % readiness_period >= readiness_duration:
         return JsonResponse({"message": "unready!"}, status=503, running_time=time_delta)
 
     return JsonResponse({"message": "ok!"}, status=200, running_time=time_delta)

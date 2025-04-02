@@ -71,7 +71,7 @@ The following is an example script that will curl the app at one second interval
 ```sh
 while [ true ]
 do
-  curl '$HOSTNAME/test?startup_delay=8&failure_delay=45&readiness_period=10&readiness_duration=5'
+  curl "$HOSTNAME/test?startup_delay=8&failure_delay=45&readiness_period=10&readiness_duration=5"
   sleep 1
 done
 ```
