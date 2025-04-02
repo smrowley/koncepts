@@ -1,5 +1,8 @@
 resources:
 - ../expose-route
 - configmap.yaml
-patchesStrategicMerge:
-- deployment.yaml
+patches:
+- path: deployment.yaml
+  target:
+    kind: Deployment
+    name: koncepts

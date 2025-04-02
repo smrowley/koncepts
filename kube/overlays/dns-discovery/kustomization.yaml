@@ -1,5 +1,8 @@
 resources:
 - ../../base
 - service-headless.yaml
-patchesStrategicMerge:
-- deployment.yaml
+patches:
+- path: deployment.yaml
+  target:
+    kind: Deployment
+    name: koncepts

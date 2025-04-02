@@ -24,3 +24,8 @@ spec:
         - containerPort: 8081
           protocol: TCP
         imagePullPolicy: Always
+        resources:
+          requests:
+            memory: "100Mi"
+          limits:
+            memory: "1Gi"
