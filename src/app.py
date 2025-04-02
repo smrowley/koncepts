@@ -14,7 +14,10 @@ metrics = GunicornPrometheusMetrics(app)
 
 pod_info = dict()
 pod_info["hostname"] = hostutils.get_file_contents("/etc/hostname")
-#pod_info["namespace"] = hostutils.get_file_contents("/var/run/secrets/kubernetes.io/serviceaccount/namespace")
+pod_info["namespace"] = hostutils.get_file_contents("/var/run/secrets/kubernetes.io/serviceaccount/namespace")
+pod_info["memory_limit"] = hostutils.get_file_contents("/sys/fs/cgroup/memory/memory.limit_in_bytes")
+pod_info["cpu_quota"] = hostutils.get_file_contents("/sys/fs/cgroup/cpu/cpu.cfs_quota_us")
+pod_info["cpu_period"] = hostutils.get_file_contents("/sys/fs/cgroup/cpu/cpu.cfs_period_us")
 #pod_info["ip_address"] = hostutils.get_ip_address(pod_info["hostname"])
 
 timestamp_message = environ.get("TIMESTAMP_MESSAGE", "Automate all the things!")
