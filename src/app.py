@@ -1,17 +1,22 @@
-from os import popen, environ, listdir
+from os import environ, listdir
 from os.path import isfile, join
 from flask import Flask, render_template, request, Response
 from time import time
 from prometheus_flask_exporter.multiprocess import GunicornPrometheusMetrics
 import json
 import dns.resolver
+import hostutils
 
 startTime = time()
 
 app = Flask(__name__)
 metrics = GunicornPrometheusMetrics(app)
 
-hostname = popen("cat /etc/hostname").read().strip()
+pod_info = dict()
+pod_info["hostname"] = hostutils.get_file_contents("/etc/hostname")
+#pod_info["namespace"] = hostutils.get_file_contents("/var/run/secrets/kubernetes.io/serviceaccount/namespace")
+#pod_info["ip_address"] = hostutils.get_ip_address(pod_info["hostname"])
+
 timestamp_message = environ.get("TIMESTAMP_MESSAGE", "Automate all the things!")
 content_path = environ.get("CONTENT_PATH", ".")
 
@@ -29,7 +34,7 @@ pods = [("pod1", "172.1.1.1"), ("pod2", "172.1.1.2")]
 
 @app.route("/")
 def index():
-    return render_template("index.html", hostname=hostname, content_files=content_files, envvars=environ, pods=pods)
+    return render_template("index.html", pod_info=pod_info, content_files=content_files, envvars=environ, pods=pods)
 
 @app.route("/timestamp")
 def timestamp():
@@ -68,7 +73,7 @@ def catch_all(path):
 class JsonResponse(Response):
     def __init__(self, message_obj, status, add_hostname=True, indent=None, running_time=None):
         if add_hostname:
-            message_obj["hostname"] = hostname
+            message_obj["hostname"] = pod_info["hostname"]
         if running_time != None:
             message_obj["running_time"] = running_time
 

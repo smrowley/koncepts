@@ -101,11 +101,35 @@
                     href="https://github.com/smrowley/koncepts/commit/{{ envvars['COMMIT_HASH'] }}">{{ envvars['COMMIT_HASH'] }}</a>
             </div>
         </div>
-        <h2 class="text-center">{{ hostname }}</h2>
+        <h2 class="text-center">{{ pod_info["hostname"] }}</h2>
         <div id="innerBox">
-            <div class="accordion" id="accordionExample">
+            <div class="accordion" id="podInfoAccordian">
+                
+                
                 <div class="card">
-                    <div class="card-header" id="headingOne">
+                    <div class="card-header" id="headingPodInfo">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link" type="button" data-toggle="collapse"
+                                data-target="#collapsePodInfo" aria-expanded="false"
+                                aria-controls="collapsePodInfo">
+                                Pod Info
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapsePodInfo" class="collapse show" aria-labelledby="headingPodInfo"
+                        data-parent="#podInfoAccordian">
+                        <div class="card-body text-left">
+                            {% for key in pod_info %}
+                            <strong>{{ key }}:</strong> {{ pod_info[key] }}<br />
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                
+                
+                <div class="card">
+                    <div class="card-header" id="headingFileContents">
                         <h2 class="mb-0">
                             <button class="btn btn-link" type="button" data-toggle="collapse"
                                 data-target="#collapseFileContents" aria-expanded="false"
@@ -115,8 +139,8 @@
                         </h2>
                     </div>
 
-                    <div id="collapseFileContents" class="collapse show" aria-labelledby="headingOne"
-                        data-parent="#accordionExample">
+                    <div id="collapseFileContents" class="collapse show" aria-labelledby="headingFileContents"
+                        data-parent="#podInfoAccordian">
                         <div class="card-body text-left">
                             {% for key in content_files %}
                             <h4>
@@ -138,8 +162,10 @@
                         </div>
                     </div>
                 </div>
+
+
                 <div class="card">
-                    <div class="card-header" id="headingTwo">
+                    <div class="card-header" id="headingEnvVars">
                         <h2 class="mb-0">
                             <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
                                 data-target="#collapseEnvVars" aria-expanded="false" aria-controls="collapseEnvVars">
@@ -147,8 +173,8 @@
                             </button>
                         </h2>
                     </div>
-                    <div id="collapseEnvVars" class="collapse" aria-labelledby="headingTwo"
-                        data-parent="#accordionExample">
+                    <div id="collapseEnvVars" class="collapse" aria-labelledby="headingEnvVars"
+                        data-parent="#podInfoAccordian">
                         <div class="card-body text-left">
                             <pre class="code"><code>
 {% for name in envvars -%}
@@ -157,9 +183,11 @@
                         </div>
                     </div>
                 </div>
+
+
                 <!--
                 <div class="card">
-                    <div class="card-header" id="headingThree">
+                    <div class="card-header" id="headingReplicas">
                         <h2 class="mb-0">
                             <button class="btn btn-link collapsed" type="button" data-toggle="collapse"
                                 data-target="#collapseReplicas" aria-expanded="false" aria-controls="collapseReplicas">
@@ -167,8 +195,8 @@
                             </button>
                         </h2>
                     </div>
-                    <div id="collapseReplicas" class="collapse" aria-labelledby="headingThree"
-                        data-parent="#accordionExample">
+                    <div id="collapseReplicas" class="collapse" aria-labelledby="headingReplicas"
+                        data-parent="#podInfoAccordian">
                         <div class="card-body text-left">
                             {% for name, ip in pods %}
                             <div class="card pod-info">
